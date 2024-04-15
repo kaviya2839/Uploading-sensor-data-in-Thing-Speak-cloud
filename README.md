@@ -1,4 +1,6 @@
-# Uploading temperature sensor data in Thing Speak cloud
+#### NAME: KAVIYA SHREE S
+#### Reg.No: 212222110018
+# EXP-03 Uploading temperature sensor data in Thing Speak cloud
 
 # AIM:
 To monitor the temperature sensor data in the Thing speak using an ESP32 controller.
@@ -71,10 +73,70 @@ Automatically act on your data and communicate using third-party services like T
 
 
 # PROGRAM:
+```c
+#include"ThingSpeak.h"
+#include <WiFi.h>
+#include "DHT.h"
+
+char ssid[]="xx";
+char pass[]="xyz";
+
+const int t=25;
+WiFiClient client;
+DHT dht(25, DHT11);
+
+unsigned long myChannelField = 2487172;
+const int ChannelField1 = 1 ; 
+const int ChannelField2 = 2 ;
+const char *myWriteAPIKey="mwa0000033516271W";
+
+void setup()
+{
+  Serial.begin(115200);
+  pinMode (t,OUTPUT);
+  WiFi.mode(WIFI_STA);
+  ThingSpeak.begin(client);
+  dht.begin();
+  delay(1000);
+}
+
+void loop()
+{
+  if(WiFi.status()!=WL_CONNECTED)
+  {
+    Serial.print("Attempting to connet to SSID: "); 
+    Serial.println(ssid);
+    while(WiFi.status() != WL_CONNECTED)
+    {
+      WiFi.begin(ssid, pass);
+      Serial.print(".");
+      delay(5000);
+    }
+    Serial.println("\nConnected");
+  }
+  float temperature = dht.readTemperature();
+  float humidity = dht.readHumidity();
+  delay(1000);
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.println(" *C");
+  ThingSpeak.writeField(myChannelField, ChannelField1, temperature, myWriteAPIKey);
+  Serial.print("Humidity: ");
+  Serial.print(humidity);
+  Serial.println(" g.m-3");
+  ThingSpeak.writeField(myChannelField, ChannelField2, humidity, myWriteAPIKey);
+  delay(1000);
+}
+```
 
 # CIRCUIT DIAGRAM:
+<img src="https://github.com/kaviya2839/Uploading-sensor-data-in-Thing-Speak-cloud/assets/120553351/1bea6db8-0fa5-4a92-a663-57b48bbd55ac" alt="alt text" width="500" height="300" class="center">
 
 # OUTPUT:
+## Serial Monitor
+<img src="https://github.com/kaviya2839/Uploading-sensor-data-in-Thing-Speak-cloud/assets/120553351/276c3197-42e8-4d4a-99b0-ddbb6e605b88" alt="alt text" width="500" height="300" class="center">
+## Thing Speak
+<img src="https://github.com/kaviya2839/Uploading-sensor-data-in-Thing-Speak-cloud/assets/120553351/edfc6f37-7cd5-4c14-819e-7648c0eaf12d" alt="alt text" width="500" height="300" class="center">
 
 # RESULT:
 
