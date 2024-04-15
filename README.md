@@ -73,7 +73,7 @@ Automatically act on your data and communicate using third-party services like T
 
 
 # PROGRAM:
-```c
+```
 #include"ThingSpeak.h"
 #include <WiFi.h>
 #include "DHT.h"
@@ -135,6 +135,7 @@ void loop()
 # OUTPUT:
 ## Serial Monitor
 <img src="https://github.com/kaviya2839/Uploading-sensor-data-in-Thing-Speak-cloud/assets/120553351/276c3197-42e8-4d4a-99b0-ddbb6e605b88" alt="alt text" width="500" height="300" class="center">
+
 ## Thing Speak
 <img src="https://github.com/kaviya2839/Uploading-sensor-data-in-Thing-Speak-cloud/assets/120553351/edfc6f37-7cd5-4c14-819e-7648c0eaf12d" alt="alt text" width="500" height="300" class="center">
 
