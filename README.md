@@ -75,69 +75,73 @@ Automatically act on your data and communicate using third-party services like T
 # PROGRAM:
 ```
 #include"ThingSpeak.h"
-#include <WiFi.h>
-#include "DHT.h"
+#include<WiFi.h>
+#include"DHT.h"
 
-char ssid[]="xx";
-char pass[]="xyz";
 
-const int t=25;
+char id[]="OnePlus Nord 4";
+char pass[]="prabha25";
+
+const int out=23;
+long T;
+float temperature=0;
+
 WiFiClient client;
-DHT dht(25, DHT11);
+DHT dht(23,DHT11);
 
-unsigned long myChannelField = 2487172;
-const int ChannelField1 = 1 ; 
-const int ChannelField2 = 2 ;
-const char *myWriteAPIKey="mwa0000033516271W";
+unsigned long myChannel=2913847;
+const int TemperatureField=1;
+const int HumidityField=2;
+const char* myWriteAPIKey="R8JD367NSYDNTCOW";
 
-void setup()
-{
+void setup() {
   Serial.begin(115200);
-  pinMode (t,OUTPUT);
-  WiFi.mode(WIFI_STA);
+  pinMode(out,INPUT);
   ThingSpeak.begin(client);
   dht.begin();
   delay(1000);
+
 }
 
-void loop()
-{
+void loop() {
   if(WiFi.status()!=WL_CONNECTED)
   {
-    Serial.print("Attempting to connet to SSID: "); 
-    Serial.println(ssid);
-    while(WiFi.status() != WL_CONNECTED)
+    Serial.print("Attempting to connect to SSID:");
+    Serial.println(id);
+    while(WiFi.status()!=WL_CONNECTED)
     {
-      WiFi.begin(ssid, pass);
+      WiFi.begin(id,pass);
       Serial.print(".");
       delay(5000);
     }
-    Serial.println("\nConnected");
+    Serial.println("\nConnected.");
   }
-  float temperature = dht.readTemperature();
-  float humidity = dht.readHumidity();
-  delay(1000);
+  float temperature=dht.readTemperature();
+  float humidity=dht.readHumidity();
+
   Serial.print("Temperature: ");
-  Serial.print(temperature);
-  Serial.println(" *C");
-  ThingSpeak.writeField(myChannelField, ChannelField1, temperature, myWriteAPIKey);
-  Serial.print("Humidity: ");
-  Serial.print(humidity);
-  Serial.println(" g.m-3");
-  ThingSpeak.writeField(myChannelField, ChannelField2, humidity, myWriteAPIKey);
-  delay(1000);
-}
+  Serial.println(temperature);
+  Serial.println("C");
+
+  Serial.print("Humidity:");
+  Serial.println(humidity);
+  Serial.println("g.m-3");
+
+  ThingSpeak.writeField(myChannel,TemperatureField,temperature,myWriteAPIKey);
+  ThingSpeak.writeField(myChannel,HumidityField,humidity,myWriteAPIKey);
+  delay(100);
+}                
 ```
 
 # CIRCUIT DIAGRAM:
-<img src="https://github.com/kaviya2839/Uploading-sensor-data-in-Thing-Speak-cloud/assets/120553351/1bea6db8-0fa5-4a92-a663-57b48bbd55ac" alt="alt text" width="500" height="300" class="center">
+<img src="https://github.com/user-attachments/assets/6eabe22a-e00b-4f36-8779-21e26f36b966" alt="alt text" width="500" height="300" class="center">
 
 # OUTPUT:
 ## Serial Monitor
-<img src="https://github.com/kaviya2839/Uploading-sensor-data-in-Thing-Speak-cloud/assets/120553351/276c3197-42e8-4d4a-99b0-ddbb6e605b88" alt="alt text" width="500" height="300" class="center">
+<img src="https://github.com/user-attachments/assets/32e17965-051d-41dc-b5b6-4966e0ae89bc" alt="alt text" width="500" height="300" class="center">
 
 ## Thing Speak
-<img src="https://github.com/kaviya2839/Uploading-sensor-data-in-Thing-Speak-cloud/assets/120553351/edfc6f37-7cd5-4c14-819e-7648c0eaf12d" alt="alt text" width="500" height="300" class="center">
+<img src="https://github.com/user-attachments/assets/0746708e-4368-43a5-b9d5-3045e3bb66c0" alt="alt text" width="500" height="300" class="center">
 
 # RESULT:
 
